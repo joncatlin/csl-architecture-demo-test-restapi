@@ -18,10 +18,12 @@ namespace cad_restapi.Controllers
 
     public class Rules
     {
-        public string[] Commands { get; set; }
+        public Dictionary<string, string> Portfolios { get; set; }
+
+        public Dictionary<string, string> Commands { get; set; }
 
         // Ordering of rules is implied by the position in the array
-        public Rule[] RuleArray { get; set; }
+        public Dictionary<int, Dictionary<string, string>> RuleArray { get; set; }
     }
 
     [Route("api/[controller]")]
@@ -32,27 +34,53 @@ namespace cad_restapi.Controllers
         public string Get()
         {
             Rules rules = new Rules();
-            rules.Commands = new string[] { "Assess", "Bill" };
+            rules.Commands = new Dictionary<string, string>()
+            {
+                { "10", "Assess" },
+                { "11", "Bill" }
+            };
 
-            Rule rule1 = new Rule();
-            rule1.ID = 234;
-            rule1.RuleDescription = "Rule description 1";
-            rule1.NumParameters = 2;
-            rule1.Parameters = new string[] { "default for param1", "default for param2" };
+            rules.Portfolios = new Dictionary<string, string>()
+            {
+                { "1", "Cayman Islands" },
+                { "2", "Tokyo" },
+                { "3", "London Basin" },
+                { "4", "Bornmouth" },
+                { "5", "Isle of Sky" },
+                { "6", "Sun Dance" },
+                { "7", "Fiji" },
+                { "10", "Fiji2" },
+                { "11", "Wild Wilderness" },
+                { "13", "Tame Wilderness" },
+                { "15", "Boring" },
+                { "16", "Fantasic and a great place to go" },
+                { "17", "Somewhere Else Land" }
+            };
 
-            Rule rule2 = new Rule();
-            rule2.ID = 89;
-            rule2.RuleDescription = "Rule description 2";
-            rule2.NumParameters = 3;
-            rule2.Parameters = new string[3] { "R2 param 1", "R2 param2", "R3 param3" };
+            Dictionary<string, string> rule1 = new Dictionary<string, string>()
+            {
+                {"Id", "234"}, {"Name", "Rule1" }, {"Description", "This is the description for rule 1" },
+                {"NumParameters", "2" }, {"Param1", "Default value of param 1"}, {"Param2", "Default value of param 2"}
+            };
 
-            Rule rule3 = new Rule();
-            rule2.ID = 278;
-            rule2.RuleDescription = "Rule description 3";
-            rule2.NumParameters = 0;
-            rule2.Parameters = new string[0];
+            Dictionary<string, string> rule2 = new Dictionary<string, string>()
+            {
+                {"Id", "432"}, {"Name", "Rule2" }, {"Description", "This is the description for rule 2" },
+                {"NumParameters", "1" }, {"Param1", "Default value of param 1"}
+            };
 
-            rules.RuleArray = new Rule[3] { rule1, rule2, rule3 };
+            Dictionary<string, string> rule3 = new Dictionary<string, string>()
+            {
+                {"Id", "887"}, {"Name", "Rule3" }, {"Description", "This is the description for rule 3" },
+                {"NumParameters", "3" }, {"Param1", "Default value of param 1"}, {"Param2", "Default value of param 2"}, {"Param3", "Default value of param 3"}
+            };
+
+            rules.RuleArray = new Dictionary<int, Dictionary<string, string>>()
+            {
+                { 0, rule1 },
+                { 1, rule2 },
+                { 2, rule3 }
+            };
 
             return JsonConvert.SerializeObject(rules);
         }
